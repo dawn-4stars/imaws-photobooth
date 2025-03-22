@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="frame-beige.png">
+    <link rel="preload" href="frame-black.png">
+    <link rel="preload" href="frame-blue.png">
+    <link rel="preload" href="frame-green.png">
+    <link rel="preload" href="frame-grey.png">
+    <link rel="preload" href="frame-maroon.png">
+    <link rel="preload" href="frame-pink.png">
+    <link rel="preload" href="frame-white.png">
+    <link rel="preload" href="design-none.png">
+    <link rel="preload" href="frame-mc.png">
+    <title>Photobooth</title>
+    <style>
+        html {
+            font-size: 18px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            /* background-color: rgb(255, 255, 255); */
+            background-image: url(brown-paper-texture.jpg);
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        ul {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            list-style-type: none;
+            margin-left: -20px;
+        }
+        li {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        button {
+            border-radius: 999px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            width: 94px;
+            color: black;
+            border-color: black;
+        }
+
+/* PART1 */
+        #part1 img {
+            margin: auto;
+            margin-top: 140px;
+            display: block;
+        }
+
+        #hero {
+            margin: auto;
+            display: block;
+            text-align: center;
+        }
+
+        #pick-frame {
+            margin: auto;
+            margin-top: 4px;
+            display: block;
+        }
+
+/* PART2 */
+        #part2 {
+            margin: auto;
+            display: none;
+        }
+
+        #part2 #top {
+            margin: 0;
+            padding: 0;
+            margin-top: 60px;
+            margin-bottom: -100px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #part2-grid {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            /* background-color: aliceblue; */
+        }
+
+        #part2 div {
+            padding: 40px;
+        }
+
+        #part2 #left {
+            padding-right: 0px;
+            position: relative;
+            top: 40px;
+            left: 0;
+            /* background-color: blue; */
+        }
+
+        #frame {
+            border-width: 0.5px;
+            border-style: solid;
+            border-color: black;
+            background-color: rgb(237, 237, 237);
+            position: relative;
+            top: 0;
+            left: 0;
+            min-width: 100px;
+            max-width: 12vw;
+            z-index: 1;
+        }
+
+        #design {
+            border-width: 0.5px;
+            border-style: solid;
+            border-color: black;
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            min-width: 100px;
+            max-width: 12vw;
+            z-index: 3;
+        }
+
+        #part2 #right {
+            font-size: 12px;
+            margin-left: 30px;
+            display: block;
+            /* background-color: brown; */
+        }
+
+        #part2 #right div {
+            padding: 0;
+            max-width: 200px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        /* #part2 #right p {
+            padding-left: 0;
+        } */
+
+        #part2-grid button {
+            margin: 2px;
+            margin-left: 0;
+            background-color: transparent;
+            width: auto;
+            padding-right: 4px;
+            padding-left: 4px;
+        }
+
+        #part2 #bottom {
+            margin: 0;
+            margin-top: -30px;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #part2 #bottom p {
+            max-width: 700px;
+            font-size: 14px;
+        }
+
+
+/* PART3 */
+        #part3 {
+            display: none;
+        }
+        #camera-stream {
+            margin: auto;
+            display: block;
+            min-height: 80vh;
+            transform: scaleX(-1);
+        }
+        #notif {
+            margin: auto;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            width: 60vw;
+        }
+        #canvas {
+            display: none;
+        }
+        #shutter {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(235, 235, 235);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="">About</a></li>
+        <li><a href="">Privacy</a></li>
+    </ul>
+    <!-- FIRST PART : LANDING-->
+    <section id="part1">
+        <img src="imaw-halftone.png">
+        <p id="hero">IMAW'S PHOTOBOOTH</p>
+        <button id="pick-frame" onclick="pickFrame()">Start</button>    
+    </section>
+    
+    <!-- SECOND PART : PICKING FRAMES -->
+    <section id="part2">
+        <div id="top">
+            <p>Please pick out a frame before beginning the photobooth :)</p>
+        </div>
+        <div id="part2-grid">
+            <div id="left">
+                <!-- <img id="photo" src="photo.png"> -->
+                <img id="frame" src="frame-black.png">
+                <img id="design" src="design-none.png">
+            </div>
+            <div id="right">
+                <p>Pick a color:</p>
+                <div id="color-buttons">
+                    <button onclick="changeFrame('frame-black.png')">black</button>
+                    <button onclick="changeFrame('frame-white.png')">white</button>
+                    <button onclick="changeFrame('frame-blue.png')">blue</button>
+                    <button onclick="changeFrame('frame-pink.png')">pink</button>
+                    <button onclick="changeFrame('frame-maroon.png')">maroon</button>
+                    <button onclick="changeFrame('frame-grey.png')">grey</button>
+                    <button onclick="changeFrame('frame-beige.png')">beige</button>
+                    <button onclick="changeFrame('frame-green.png')">green</button>
+                </div>
+                <p>Pick an add-on design:</p>
+                <div id="design-buttons">
+                    <button onclick="changeDesign('design-none.png')">none</button>
+                    <button onclick="changeDesign('design-mc.png')">minecraft</button>
+                    <button>cats</button>
+                    <button>smiski</button>
+                    <button>edgy</button>
+                </div>
+            </div>
+        </div>
+        <div id="bottom">
+            <p>Mechanics:</p>
+            <p>You will have 5 seconds to pose in between each photo. 
+                After the session, the photo collage will automatically be downloaded to your device.</p>
+            <button id="take-photo" onclick="takeCollage()">Next</button>
+        </div>
+        
+    </section>
+
+    <!-- THIRD PART: TAKING THE PICS -->
+    <section id="part3">
+        <p id="notif"> / </p>
+        <video id="camera-stream" autoplay muted></video>
+        
+    </section>
+    
+    <canvas id="canvas"></canvas>
+    <div id="shutter"></div>
+
+</body>
+<script>
+
+// PRELOADING OF FRAMES OPTIONS FOR PART2
+// frames preload so that they can be drawn on canvas later
+    const frameImg = new Image();
+    frameImg.src = 'frame-black.png';
+    const designImg = new Image();
+    designImg.src = 'design-none.png';
+
+// SOME IMPORTANT VARIABLES
+    const prepBtn = document.getElementById("pick-frame");
+    const startBtn = document.getElementById("take-photo");
+    const cameraVideoStream = document.getElementById('camera-stream');
+    const canvas = document.getElementById('canvas');
+    const notif = document.getElementById('notif');
+    const hero = document.getElementById('hero');
+    let streaming = false;
+    const borderSize = 40;          // in pixels
+    const borderColor = "white"; 
+    const frames = 4;               // number of pics to be taken
+
+// NECESSARY & PREPARATORY PROCESSES FOR CAM STREAM IN PART3
+// for browser permissions
+// if permissions can be granted, ask for grant
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: true })) {
+        navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then((stream) => {
+                cameraVideoStream.srcObject = stream;
+                cameraVideoStream.play();
+            });
+    }
+    cameraVideoStream.addEventListener("canplay", (ev) => {
+        if (!streaming) {
+            streaming = true;
+        }
+    }, false);
+
+
+// BUTTON THAT TRIGGERS PART2
+    function pickFrame() {
+        // hide shit and show shit
+        document.getElementById("part1").style.display = "none";
+        document.getElementById("part2").style.display = "block";
+    }
+
+// PICKS OUT FRAME OPTION FOR PRINTING AFTER PART3
+    function changeFrame(pickedColor) {
+        document.getElementById("frame").src = pickedColor;
+        frameImg.src = pickedColor;
+    }
+
+    function changeDesign(pickedDesign) {
+        document.getElementById("design").src = pickedDesign;
+        designImg.src = pickedDesign;
+    }
+
+// FUNCTIONS FOR PART3
+// helper function idrk but this makes the async funcs work
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function triggerShutter() {
+        shutter.style.opacity = "1"; 
+        setTimeout(() => {
+            shutter.style.opacity = "0"; 
+        }, 100); 
+    }
+  
+    async function countdown(seconds) {
+        for (let i = seconds; i > 0; i--) {
+            notif.innerHTML = `Photo in ${i}...`;
+            await delay(1000);
+        }
+    }
+    async function takeCollage() {
+        if (!streaming) return;
+        
+        // hide shit and show shit
+        document.getElementById("part2").style.display = "none";
+        document.getElementById("part3").style.display = "block";
+
+
+        const width = cameraVideoStream.videoWidth;
+        const height = cameraVideoStream.videoHeight;
+        canvas.width = width + borderSize * 2;
+        canvas.height = height * frames + borderSize * (frames + 1);
+
+        const context = canvas.getContext("2d");
+        context.fillStyle = borderColor;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        async function drawFrame(index) {
+            await countdown(5); // 5-second countdown before taking a photo
+
+            triggerShutter();
+            await delay(150);
+            context.save();
+            context.scale(-1, 1);
+            context.translate(-width - borderSize, 0);
+            context.drawImage(cameraVideoStream, 0, index * (height + borderSize) + borderSize, width, height);
+            context.restore();
+
+            if (index < frames - 1) {
+                context.fillRect(borderSize, (index + 1) * (height + borderSize), width, borderSize);
+            }
+        }
+
+        for (let i = 0; i < frames; i++) {
+            await drawFrame(i);
+        }
+
+        await delay(300);
+
+        cameraVideoStream.style.display = "none";
+        notif.innerHTML = " ";
+
+        await delay(300);
+
+        notif.style.marginTop = "25%";
+        notif.style.maxWidth = "400px";
+        notif.innerHTML = "The photo should be making its way into your computer. Please check your downloads folder after a few seconds";
+
+        // superimpose frame and design
+        context.drawImage(frameImg, 0, 0);
+        context.drawImage(designImg, 0, 0);
+
+        // convert canvas to image
+        const imageUrl = canvas.toDataURL("image/png");
+
+        // create a download link
+        const downloadLink = document.createElement("a");
+        downloadLink.href = imageUrl;
+        downloadLink.download = "ur_photo.png";
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+
+        await delay(1000);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        // clear the canvas after saving
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+</script>
+</html>
